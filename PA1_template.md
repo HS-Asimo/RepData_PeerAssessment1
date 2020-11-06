@@ -37,6 +37,10 @@ tbl_df(data)
 ## Did you misspecify an argument?
 ```
 
+```r
+library(ggplot2)
+```
+
 
 ## What is mean total number of steps taken per day?
 
@@ -81,8 +85,9 @@ head(Steps.day)
 2.Make a histogram of the total number of steps taken each day
 
 ```r
-hist(Steps.day$steps.day, main = "** steps per day **",
-     xlab = "days", ylab = "Steps")
+ggplot(data = Steps.day, aes(x = steps.day)) +
+  geom_histogram(fill = "red", binwidth = 1000) +
+  labs(x = "Steps per day")
 ```
 
 ![plot of chunk hist](figure/hist-1.png)
@@ -121,11 +126,11 @@ AvgStepsInterval <- data %>%
 ```
 
 ```r
-plot(AvgStepsInterval$interval, AvgStepsInterval$avg, type = "l",
-     xlab = "5-minutes interval", ylab = "Average Steps", col = "red")
+ggplot(data = AvgStepsInterval, aes(interval, avg)) +
+  geom_line(color = "blue")
 ```
 
-![plot of chunk time Series Plot](figure/time Series Plot-1.png)
+![plot of chunk timeSeriesPlot](figure/timeSeriesPlot-1.png)
 
 2. Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
 
@@ -187,8 +192,9 @@ Steps.day2 <- data2 %>%
 ```
 
 ```r
-hist(Steps.day2$steps.day, main = "** steps per day **",
-     xlab = "days", ylab = "Steps")
+ggplot(data = Steps.day2, aes(x = steps.day)) +
+  geom_histogram(fill = "blue", binwidth = 1000) +
+  labs(x = "Steps per day")
 ```
 
 ![plot of chunk summaries](figure/summaries-1.png)
@@ -242,10 +248,9 @@ AvgStepsInterval2 <- data2 %>%
 ```
 
 ```r
-library(ggplot2)
 ggplot(data = AvgStepsInterval2, aes(interval, avg, color = type)) +
   geom_line() + facet_grid(type~.)
 ```
 
-![plot of chunk pannel plots](figure/pannel plots-1.png)
+![plot of chunk pannelPlots](figure/pannelPlots-1.png)
 

@@ -25,6 +25,7 @@ data <- read.csv("./data/activity.csv")
 
 library(dplyr)
 tbl_df(data)
+library(ggplot2)
 ```
 
 
@@ -42,8 +43,9 @@ head(Steps.day)
 2.Make a histogram of the total number of steps taken each day
 ```{r hist}
 
-hist(Steps.day$steps.day, main = "** steps per day **",
-     xlab = "days", ylab = "Steps")
+ggplot(data = Steps.day, aes(x = steps.day)) +
+  geom_histogram(fill = "red", binwidth = 1000) +
+  labs(x = "Steps per day")
 ```
 
 3. Calculate and report the mean and median of the total number of steps taken per day
@@ -58,19 +60,19 @@ median(Steps.day$steps.day)
 ## What is the average daily activity pattern?
 
 1. Make a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
-``` {r time Series Plot}
+``` {r timeSeriesPlot}
 
 AvgStepsInterval <- data %>%
   group_by(interval) %>%
   summarise(avg = mean(steps, na.rm = TRUE))
 
-plot(AvgStepsInterval$interval, AvgStepsInterval$avg, type = "l",
-     xlab = "5-minutes interval", ylab = "Average Steps", col = "red")
+ggplot(data = AvgStepsInterval, aes(interval, avg)) +
+  geom_line(color = "blue")
 
 ```
 
 2. Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
-``` {r Max steps}
+``` {r MaxSteps}
 df1 <- data.frame(AvgStepsInterval)
 df1[which(df1$avg == max(df1$avg)),1]
 ```
@@ -79,7 +81,7 @@ df1[which(df1$avg == max(df1$avg)),1]
 ## Imputing missing values
 
 1. Calculate and report the total number of missing values in the dataset (i.e. the total number of rows with NAs)
-``` {r missing values}
+``` {r missingValues}
 
 sum(is.na(data$steps))
 ```
@@ -103,8 +105,10 @@ Steps.day2 <- data2 %>%
   group_by(date) %>%
   summarise(steps.day = sum(steps, na.rm = TRUE))
 
-hist(Steps.day2$steps.day, main = "** steps per day **",
-     xlab = "days", ylab = "Steps")
+ggplot(data = Steps.day2, aes(x = steps.day)) +
+  geom_histogram(fill = "blue", binwidth = 1000) +
+  labs(x = "Steps per day")
+
 
 mean(Steps.day2$steps.day)
 median(Steps.day2$steps.day)
@@ -116,7 +120,7 @@ The values after imputation has changed, which indicates the effect of missing v
 ## Are there differences in activity patterns between weekdays and weekends?
 
 1. Create a new factor variable in the dataset with two levels -- "weekday" and "weekend" indicating whether a given date is a weekday or weekend day.
-``` {r weekdays and weekends, results = "hide"}
+``` {r weekdays_and_weekends, results = "hide"}
 
 Steps.day2$date <- as.Date(Steps.day2$date)
 weekdays(Steps.day2$date)
@@ -132,13 +136,13 @@ data2 <- left_join(data2, Steps.day2, by = "date")
 ```
 
 2. Make a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis). The plot should look something like the following, which was created using simulated data:
-``` {r pannel plots}
+``` {r pannelPlots}
 
 AvgStepsInterval2 <- data2 %>%
   group_by(type, interval) %>%
   summarise(avg = mean(steps, na.rm = TRUE))
 
-library(ggplot2)
+
 ggplot(data = AvgStepsInterval2, aes(interval, avg, color = type)) +
   geom_line() + facet_grid(type~.)
 
