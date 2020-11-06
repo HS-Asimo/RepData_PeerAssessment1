@@ -42,7 +42,7 @@ head(Steps.day)
 2.Make a histogram of the total number of steps taken each day
 ```{r hist}
 
-hist(Steps.day$steps.day, main = "*** steps per day ***",
+hist(Steps.day$steps.day, main = "** steps per day **",
      xlab = "days", ylab = "Steps")
 ```
 
@@ -65,7 +65,7 @@ AvgStepsInterval <- data %>%
   summarise(avg = mean(steps, na.rm = TRUE))
 
 plot(AvgStepsInterval$interval, AvgStepsInterval$avg, type = "l",
-     xlab = "5-minutes interval", ylab = "Average Steps", col = "blue")
+     xlab = "5-minutes interval", ylab = "Average Steps", col = "red")
 
 ```
 
@@ -103,7 +103,7 @@ Steps.day2 <- data2 %>%
   group_by(date) %>%
   summarise(steps.day = sum(steps, na.rm = TRUE))
 
-hist(Steps.day2$steps.day, main = "*** steps per day ***",
+hist(Steps.day2$steps.day, main = "** steps per day **",
      xlab = "days", ylab = "Steps")
 
 mean(Steps.day2$steps.day)
@@ -139,8 +139,8 @@ AvgStepsInterval2 <- data2 %>%
   summarise(avg = mean(steps, na.rm = TRUE))
 
 library(ggplot2)
-ggplot(data = AvgStepsInterval2, aes(interval, avg)) +
-  geom_line() + facet_grid(type~.) + geom_smooth()
+ggplot(data = AvgStepsInterval2, aes(interval, avg, color = type)) +
+  geom_line() + facet_grid(type~.)
 
 ```
 

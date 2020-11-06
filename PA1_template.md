@@ -81,7 +81,7 @@ head(Steps.day)
 2.Make a histogram of the total number of steps taken each day
 
 ```r
-hist(Steps.day$steps.day, main = "*** steps per day ***",
+hist(Steps.day$steps.day, main = "** steps per day **",
      xlab = "days", ylab = "Steps")
 ```
 
@@ -122,7 +122,7 @@ AvgStepsInterval <- data %>%
 
 ```r
 plot(AvgStepsInterval$interval, AvgStepsInterval$avg, type = "l",
-     xlab = "5-minutes interval", ylab = "Average Steps", col = "blue")
+     xlab = "5-minutes interval", ylab = "Average Steps", col = "red")
 ```
 
 ![plot of chunk time Series Plot](figure/time Series Plot-1.png)
@@ -187,7 +187,7 @@ Steps.day2 <- data2 %>%
 ```
 
 ```r
-hist(Steps.day2$steps.day, main = "*** steps per day ***",
+hist(Steps.day2$steps.day, main = "** steps per day **",
      xlab = "days", ylab = "Steps")
 ```
 
@@ -243,12 +243,8 @@ AvgStepsInterval2 <- data2 %>%
 
 ```r
 library(ggplot2)
-ggplot(data = AvgStepsInterval2, aes(interval, avg)) +
-  geom_line() + facet_grid(type~.) + geom_smooth()
-```
-
-```
-## `geom_smooth()` using method = 'loess' and formula 'y ~ x'
+ggplot(data = AvgStepsInterval2, aes(interval, avg, color = type)) +
+  geom_line() + facet_grid(type~.)
 ```
 
 ![plot of chunk pannel plots](figure/pannel plots-1.png)
